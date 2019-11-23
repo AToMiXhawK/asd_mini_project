@@ -14,7 +14,7 @@ public class Login extends javax.swing.JFrame {
     public ConnectToPSQL con;
     public static int _uid=-1;
     public long _mob = 0;
-    public static String _fname= "", _lname = "", _uname = "", _email = "";
+    public static String _fname= "", _lname = "", _uname = "", _email = "", _pwd = "";
     public static String _user_type="";
     static String uname ="";
     public Login(String uname) {
@@ -143,12 +143,13 @@ public class Login extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Please,Enter the credentials");
             return;
         }
-        String sql="select id,uname,fname,lname,u_type,mobile,email from users where uname='"+unameText.getText()+"' and pwd='"+pwdText.getText()+"' limit 1";
+        String sql="select id,uname,pwd,fname,lname,u_type,mobile,email from users where uname='"+unameText.getText()+"' and pwd='"+pwdText.getText()+"' limit 1";
         ResultSet rst=con.getResultSet(sql);
         try{
                 if(rst.next()){
                     _uid=rst.getInt("id");
                     _uname=rst.getString("uname");
+                    _pwd = rst.getString("pwd");
                     _fname=rst.getString("fname");
                     _lname=rst.getString("lname");
                     _email=rst.getString("email");
@@ -156,12 +157,12 @@ public class Login extends javax.swing.JFrame {
                     _user_type=rst.getString("u_type");
                     this.dispose();
                     if("admin".equals(_user_type))
-                    {    //adminHome().setVisible(true);
-                        System.out.println("Admin");
+                    {   new adminPanel(_uid,_uname,_pwd,_fname,_lname,_mob,_email,_user_type).setVisible(true);
+                        System.out.println(_user_type);
                     }
                     else if("user".equals(_user_type))
-                    {   new userPanel(_uid,_uname,_fname,_lname,_mob,_email).setVisible(true);
-                        System.out.println("User");
+                    {   new userPanel(_uid,_uname,_pwd,_fname,_lname,_mob,_email,_user_type).setVisible(true);
+                        System.out.println(_user_type);
                     }
                 }
                 else{

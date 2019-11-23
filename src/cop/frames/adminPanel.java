@@ -12,18 +12,19 @@ package cop.frames;
 import cop.utils.ConnectToPSQL;
 import cop.frames.Login;
 import cop.frames.userUpdate;
+import cop.frames.addAdmin;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
-public class userPanel extends javax.swing.JFrame {
+public class adminPanel extends javax.swing.JFrame {
 
     public ConnectToPSQL con;
     static String uname = "", fname = "", lname ="", email = "", pwd = "", u_type = "";
     static long mob;
     static int uid = -1;
     
-    public userPanel(int uid, String uname, String pwd, String fname, String lname, long mob,String email, String u_type) {
+    public adminPanel(int uid, String uname, String pwd, String fname, String lname, long mob,String email,String u_type) {
         this.uid = uid;
         this.uname = uname;
         this.pwd = pwd;
@@ -47,31 +48,31 @@ public class userPanel extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         welcomeText = new javax.swing.JLabel();
-        regComplaintButton = new javax.swing.JButton();
-        trackComplaintButton = new javax.swing.JButton();
+        viewComplaintButton = new javax.swing.JButton();
+        addAdminButton = new javax.swing.JButton();
         updateButton = new javax.swing.JButton();
         logoutButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Social COP | User Panel", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("DejaVu Sans", 1, 14))); // NOI18N
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Social COP | Admin Panel", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("DejaVu Sans", 1, 14))); // NOI18N
         jPanel1.setMaximumSize(new java.awt.Dimension(423, 223));
         jPanel1.setMinimumSize(new java.awt.Dimension(423, 223));
         jPanel1.setPreferredSize(new java.awt.Dimension(423, 223));
 
         welcomeText.setText("Welcome");
 
-        regComplaintButton.setText("Register Complaint");
-        regComplaintButton.addActionListener(new java.awt.event.ActionListener() {
+        viewComplaintButton.setText("View Complaints");
+        viewComplaintButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                regComplaintButtonActionPerformed(evt);
+                viewComplaintButtonActionPerformed(evt);
             }
         });
 
-        trackComplaintButton.setText("Track Complaint");
-        trackComplaintButton.addActionListener(new java.awt.event.ActionListener() {
+        addAdminButton.setText("Add new Admin");
+        addAdminButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                trackComplaintButtonActionPerformed(evt);
+                addAdminButtonActionPerformed(evt);
             }
         });
 
@@ -96,8 +97,8 @@ public class userPanel extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(81, 81, 81)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(regComplaintButton, javax.swing.GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE)
-                    .addComponent(trackComplaintButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(viewComplaintButton, javax.swing.GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE)
+                    .addComponent(addAdminButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(updateButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(98, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -115,9 +116,9 @@ public class userPanel extends javax.swing.JFrame {
                     .addComponent(welcomeText, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(logoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(regComplaintButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(viewComplaintButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(trackComplaintButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(addAdminButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(updateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -143,13 +144,13 @@ public class userPanel extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void regComplaintButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regComplaintButtonActionPerformed
+    private void viewComplaintButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewComplaintButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_regComplaintButtonActionPerformed
+    }//GEN-LAST:event_viewComplaintButtonActionPerformed
 
-    private void trackComplaintButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_trackComplaintButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_trackComplaintButtonActionPerformed
+    private void addAdminButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addAdminButtonActionPerformed
+        new addAdmin().setVisible(true);
+    }//GEN-LAST:event_addAdminButtonActionPerformed
 
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
         this.dispose();
@@ -191,17 +192,17 @@ public class userPanel extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new userPanel(uid,uname,pwd,fname,lname,mob,email,u_type).setVisible(true);
+                new adminPanel(uid,uname,pwd,fname,lname,mob,email,u_type).setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addAdminButton;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JButton logoutButton;
-    private javax.swing.JButton regComplaintButton;
-    private javax.swing.JButton trackComplaintButton;
     private javax.swing.JButton updateButton;
+    private javax.swing.JButton viewComplaintButton;
     private javax.swing.JLabel welcomeText;
     // End of variables declaration//GEN-END:variables
 }
