@@ -50,6 +50,9 @@
             </TitledBorder>
           </Border>
         </Property>
+        <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[465, 324]"/>
+        </Property>
       </Properties>
 
       <Layout>

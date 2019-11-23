@@ -14,11 +14,12 @@ public class Login extends javax.swing.JFrame {
     public static int _uid=-1;
     public static String _user_fname="";
     public static String _user_type="";
-    
-    public Login() {
+    static String uname ="";
+    public Login(String uname) {
         initComponents();
         con=new ConnectToPSQL();
-        //this.setResizable(false);
+        this.setResizable(false);
+        this.unameText.setText(uname);
     }
 
     /**
@@ -98,7 +99,7 @@ public class Login extends javax.swing.JFrame {
                 .addGap(27, 27, 27)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(unameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(unameText, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE))
+                    .addComponent(unameText, javax.swing.GroupLayout.PREFERRED_SIZE, 23, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(pwdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -201,7 +202,7 @@ public class Login extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Login().setVisible(true);
+                new Login(uname).setVisible(true);
             }
         });
     }

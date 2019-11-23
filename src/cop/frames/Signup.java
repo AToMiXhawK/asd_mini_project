@@ -7,11 +7,15 @@ package cop.frames;
 
 import cop.utils.ConnectToPSQL;
 import cop.frames.Login;
+import cop.frames.SignupAknowledge;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.JOptionPane;
+
 /**
- *
  * @author hawk
  */
+
 public class Signup extends javax.swing.JFrame {
 
     public ConnectToPSQL con;
@@ -50,6 +54,7 @@ public class Signup extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Social COP | Signup", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 14))); // NOI18N
+        jPanel1.setMinimumSize(new java.awt.Dimension(465, 324));
 
         unameLabel.setText("Username: *");
 
@@ -202,10 +207,38 @@ public class Signup extends javax.swing.JFrame {
             return;
         }
         
-        String sql="insert into users values (DEFAULT,'"+unameText.getText()+"','"+pwdText.getText()+"','user','"+fnameText.getText()+"','"+lnameText.getText()+"','"+mobText.getText()+"','"+emailText.getText()+"')";
+        if(mobText.getText().trim().length()>0 && mobText.getText().trim().length()!=10)
+        {
+            JOptionPane.showMessageDialog(null, "Please, Enter valid mobile number with 10 digits ");
+            return;
+        }
+            
+        String mob = mobText.getText();
+        if(mobText.getText().trim().length()==0)
+            mob="NULL";
+        String sql="insert into users(id,uname,pwd,u_type,fname,lname,email,mobile) values (DEFAULT,'"+unameText.getText()+"','"+pwdText.getText()+"','user','"+fnameText.getText()+"','"+lnameText.getText()+"','"+emailText.getText()+"',"+mob+")";
         if(con.InsertQuery(sql)>0){
-                                  JOptionPane.showMessageDialog(null, "Registration Successful", cop.COP.app_name, JOptionPane.INFORMATION_MESSAGE);
-                                  new Login().setVisible(true);
+                                  //JOptionPane.showMessageDialog(null, "Registration Successful", cop.COP.app_name, JOptionPane.INFORMATION_MESSAGE);
+                                  sql="select id,uname,fname,lname,mobile,email from users where uname='"+unameText.getText()+"' limit 1";
+                                  ResultSet rst=con.getResultSet(sql);
+                                  int _uid = -1;
+                                  long _mob = 0;
+                                  String _uname = "", _fname = "", _lname = "", _email = "";
+                                  try{
+                                        if(rst.next()){
+                                            _uid = rst.getInt("id");
+                                            _mob = rst.getLong("mobile");
+                                            _uname = rst.getString("uname");
+                                            _fname = rst.getString("fname");
+                                            _lname = rst.getString("lname");
+                                            _email = rst.getString("email");
+                                        }
+                                  }catch(SQLException ex){
+                
+                                        JOptionPane.showMessageDialog(null, "Error", cop.COP.app_name, JOptionPane.INFORMATION_MESSAGE);
+                                        return;  
+                                  }
+                                  new SignupAknowledge(_uid,_uname,_fname,_lname,_mob,_email).setVisible(true);
                                   this.dispose();
         }else{
                                   JOptionPane.showMessageDialog(null, "Unable to register, Try changing Username ", cop.COP.app_name, JOptionPane.ERROR_MESSAGE);
@@ -215,7 +248,7 @@ public class Signup extends javax.swing.JFrame {
 
     private void exitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitButtonActionPerformed
         this.dispose();
-        new Login().setVisible(true);
+        new Login("").setVisible(true);
     }//GEN-LAST:event_exitButtonActionPerformed
 
     /**
