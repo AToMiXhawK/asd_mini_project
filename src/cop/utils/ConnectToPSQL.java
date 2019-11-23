@@ -65,6 +65,21 @@ public class ConnectToPSQL
         }
         return 0;
     }
+    
+    public int ExecuteQuery(String qry){
+        try{
+            if(!con.isClosed()){               
+               Statement statement = con.createStatement();
+               statement.executeUpdate(qry);
+               return 1;
+            }
+        }catch(Exception ex){
+            System.err.println("Query:"+qry+"");
+            System.err.println(ex.getMessage()+"");
+            return -1;
+        }
+        return 0;
+    }
 }
 
 

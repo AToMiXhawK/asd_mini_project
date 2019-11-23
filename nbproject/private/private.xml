@@ -3,9 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/hawk/Documents/COP/src/cop/utils/ConnectToPSQL.java</file>
+            <file>file:/home/hawk/Documents/COP/src/cop/frames/SignupAknowledge.java</file>
             <file>file:/home/hawk/Documents/COP/src/cop/COP.java</file>
             <file>file:/home/hawk/Documents/COP/src/cop/frames/Login.java</file>
+            <file>file:/home/hawk/Documents/COP/src/cop/frames/userPanel.java</file>
             <file>file:/home/hawk/Documents/COP/src/cop/frames/Signup.java</file>
         </group>
     </open-files>

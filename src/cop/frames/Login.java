@@ -8,11 +8,13 @@ import cop.utils.ConnectToPSQL;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import cop.frames.Signup;
+import cop.frames.userPanel;
 public class Login extends javax.swing.JFrame {
     
     public ConnectToPSQL con;
     public static int _uid=-1;
-    public static String _user_fname="";
+    public long _mob = 0;
+    public static String _fname= "", _lname = "", _uname = "", _email = "";
     public static String _user_type="";
     static String uname ="";
     public Login(String uname) {
@@ -91,20 +93,20 @@ public class Login extends javax.swing.JFrame {
                             .addComponent(unameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(unameText, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(27, 27, 27)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(unameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(unameText, javax.swing.GroupLayout.PREFERRED_SIZE, 23, Short.MAX_VALUE))
+                    .addComponent(unameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
+                    .addComponent(unameText, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(pwdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(pwdText, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(loginButton)
                     .addComponent(signupButton))
@@ -117,13 +119,15 @@ public class Login extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -139,12 +143,16 @@ public class Login extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Please,Enter the credentials");
             return;
         }
-        String sql="select id,fname,u_type from users where uname='"+unameText.getText()+"' and pwd='"+pwdText.getText()+"' limit 1";
+        String sql="select id,uname,fname,lname,u_type,mobile,email from users where uname='"+unameText.getText()+"' and pwd='"+pwdText.getText()+"' limit 1";
         ResultSet rst=con.getResultSet(sql);
         try{
                 if(rst.next()){
                     _uid=rst.getInt("id");
-                    _user_fname=rst.getString("fname");
+                    _uname=rst.getString("uname");
+                    _fname=rst.getString("fname");
+                    _lname=rst.getString("lname");
+                    _email=rst.getString("email");
+                    _mob=rst.getLong("mobile");
                     _user_type=rst.getString("u_type");
                     this.dispose();
                     if("admin".equals(_user_type))
@@ -152,7 +160,7 @@ public class Login extends javax.swing.JFrame {
                         System.out.println("Admin");
                     }
                     else if("user".equals(_user_type))
-                    {    //userHome().setVisible(true);
+                    {   new userPanel(_uid,_uname,_fname,_lname,_mob,_email).setVisible(true);
                         System.out.println("User");
                     }
                 }
