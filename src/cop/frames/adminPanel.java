@@ -35,6 +35,7 @@ public class adminPanel extends javax.swing.JFrame {
         this.mob = mob;
         initComponents();
         this.welcomeText.setText("Welcome "+fname+"! ");
+        this.setResizable(false);
     }
 
     /**
@@ -54,6 +55,7 @@ public class adminPanel extends javax.swing.JFrame {
         logoutButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Social COP");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Social COP | Admin Panel", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("DejaVu Sans", 1, 14))); // NOI18N
         jPanel1.setMaximumSize(new java.awt.Dimension(423, 223));

@@ -42,7 +42,7 @@ public class Login extends javax.swing.JFrame {
         signupButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Social Cop");
+        setTitle("Social COP");
         setMinimumSize(new java.awt.Dimension(435, 220));
         setPreferredSize(new java.awt.Dimension(435, 220));
         setResizable(false);

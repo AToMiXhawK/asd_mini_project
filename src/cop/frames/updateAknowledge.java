@@ -38,6 +38,7 @@ public class updateAknowledge extends javax.swing.JFrame {
         this.lnameText.setText(lname);
         this.emailText.setText(email);
         this.mobText.setText(Long.toString(mob));
+        this.setResizable(false);
     }
 
     /**
@@ -65,6 +66,7 @@ public class updateAknowledge extends javax.swing.JFrame {
         emailText = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Social COP");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Social COP | Update Succeessful", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("DejaVu Sans", 1, 14))); // NOI18N
         jPanel1.setMinimumSize(new java.awt.Dimension(465, 324));

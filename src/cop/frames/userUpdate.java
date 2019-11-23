@@ -39,6 +39,7 @@ public class userUpdate extends javax.swing.JFrame {
         this.lnameText.setText(lname);
         this.emailText.setText(email);
         this.mobText.setText(Long.toString(mob));
+        this.setResizable(false);
     }
 
     /**
@@ -75,6 +76,7 @@ public class userUpdate extends javax.swing.JFrame {
         jPasswordField1.setText("jPasswordField1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Social COP");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Social COP | Update Profile", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("DejaVu Sans", 1, 14))); // NOI18N
         jPanel1.setMinimumSize(new java.awt.Dimension(465, 324));
