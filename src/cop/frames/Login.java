@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 import cop.frames.Signup;
 import cop.frames.userPanel;
+import java.awt.event.KeyEvent;
 public class Login extends javax.swing.JFrame {
     
     public ConnectToPSQL con;
@@ -56,6 +57,11 @@ public class Login extends javax.swing.JFrame {
         pwdText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pwdTextActionPerformed(evt);
+            }
+        });
+        pwdText.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                pwdTextKeyPressed(evt);
             }
         });
 
@@ -180,6 +186,47 @@ public class Login extends javax.swing.JFrame {
         this.dispose();
         new Signup().setVisible(true);
     }//GEN-LAST:event_signupButtonActionPerformed
+
+    private void pwdTextKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pwdTextKeyPressed
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+            if(unameText.getText().trim().length()==0 || pwdText.getText().trim().length()==0)
+        {
+            JOptionPane.showMessageDialog(null, "Please,Enter the credentials");
+            return;
+        }
+        String sql="select id,uname,pwd,fname,lname,u_type,mobile,email from users where uname='"+unameText.getText()+"' and pwd='"+pwdText.getText()+"' limit 1";
+        ResultSet rst=con.getResultSet(sql);
+        try{
+                if(rst.next()){
+                    _uid=rst.getInt("id");
+                    _uname=rst.getString("uname");
+                    _pwd = rst.getString("pwd");
+                    _fname=rst.getString("fname");
+                    _lname=rst.getString("lname");
+                    _email=rst.getString("email");
+                    _mob=rst.getLong("mobile");
+                    _user_type=rst.getString("u_type");
+                    this.dispose();
+                    if("admin".equals(_user_type))
+                    {   new adminPanel(_uid,_uname,_pwd,_fname,_lname,_mob,_email,_user_type).setVisible(true);
+                        System.out.println(_user_type);
+                    }
+                    else if("user".equals(_user_type))
+                    {   new userPanel(_uid,_uname,_pwd,_fname,_lname,_mob,_email,_user_type).setVisible(true);
+                        System.out.println(_user_type);
+                    }
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "Wrong User Name or Password", cop.COP.app_name, JOptionPane.INFORMATION_MESSAGE);
+                   return;  
+                }
+            }catch(Exception ex){
+                
+                JOptionPane.showMessageDialog(null, "Error", cop.COP.app_name, JOptionPane.INFORMATION_MESSAGE);
+                   return;  
+            }
+        }
+    }//GEN-LAST:event_pwdTextKeyPressed
 
     /**
      * @param args the command line arguments
