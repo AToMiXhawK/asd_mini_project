@@ -147,7 +147,8 @@ public class adminPanel extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void viewComplaintButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewComplaintButtonActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
+        new viewComplaints(uid,uname,pwd,fname,lname,mob,email,u_type).setVisible(true);
     }//GEN-LAST:event_viewComplaintButtonActionPerformed
 
     private void addAdminButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addAdminButtonActionPerformed

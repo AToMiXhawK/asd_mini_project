@@ -34,7 +34,7 @@ public class trackComplaints extends javax.swing.JFrame {
         this.mob = mob;
         initComponents();
         con=new ConnectToPSQL();
-        //this.setResizable(false);
+        this.setResizable(false);
         
         String sql = "select * from complaints where uid="+uid+"";
         ResultSet rs = con.getResultSet(sql);
@@ -69,6 +69,7 @@ public class trackComplaints extends javax.swing.JFrame {
         complaintTabs = new javax.swing.JTabbedPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Social COP");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Social COP | Track Complaints", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("DejaVu Sans", 1, 14))); // NOI18N
 
