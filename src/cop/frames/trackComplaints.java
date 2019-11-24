@@ -11,6 +11,11 @@ package cop.frames;
  */
 
 import cop.utils.ConnectToPSQL;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 public class trackComplaints extends javax.swing.JFrame {
 
     public ConnectToPSQL con;
@@ -29,8 +34,25 @@ public class trackComplaints extends javax.swing.JFrame {
         this.mob = mob;
         initComponents();
         con=new ConnectToPSQL();
-        this.setResizable(false);
-        this.complaintTabs.addTab("Cities",new complaintPanel());
+        //this.setResizable(false);
+        
+        String sql = "select * from complaints where uid="+uid+"";
+        ResultSet rs = con.getResultSet(sql);
+        try {
+            while(rs.next())
+            {
+                int cid = rs.getInt("id");
+                String priority = rs.getString("priority");
+                String category = rs.getString("category");
+                String location = rs.getString("location");
+                String complaint = rs.getString("content");
+                String status = rs.getString("status");
+                String remarks = rs.getString("remarks");
+                this.complaintTabs.addTab(Integer.toString(cid),new complaintPanel(cid,priority,category,location,complaint,status,remarks,this,uid,uname,pwd,fname,lname,mob,email,u_type));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(trackComplaints.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -51,6 +73,11 @@ public class trackComplaints extends javax.swing.JFrame {
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Social COP | Track Complaints", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("DejaVu Sans", 1, 14))); // NOI18N
 
         returnButton.setText("Return");
+        returnButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                returnButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -58,16 +85,17 @@ public class trackComplaints extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(complaintTabs)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addContainerGap(587, Short.MAX_VALUE)
-                        .addComponent(returnButton, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(complaintTabs))
+                        .addContainerGap(577, Short.MAX_VALUE)
+                        .addComponent(returnButton, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(10, 10, 10)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addComponent(complaintTabs, javax.swing.GroupLayout.DEFAULT_SIZE, 309, Short.MAX_VALUE)
+                .addComponent(complaintTabs, javax.swing.GroupLayout.DEFAULT_SIZE, 437, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(returnButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -92,6 +120,11 @@ public class trackComplaints extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void returnButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_returnButtonActionPerformed
+        this.dispose();
+        new userPanel(uid,uname,pwd,fname,lname,mob,email,u_type).setVisible(true);
+    }//GEN-LAST:event_returnButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -136,8 +169,184 @@ public class trackComplaints extends javax.swing.JFrame {
 }
 
 class complaintPanel extends javax.swing.JPanel{
-    public complaintPanel(){
-        javax.swing.JButton b1 = new javax.swing.JButton("New York");
-        add(b1);
+    static String uname = "", fname = "", lname ="", email = "", pwd = "", u_type = "";
+    static long mob;
+    static int uid = -1;
+    static int cid = -1;
+    static String priority = "", category = "", location = "", complaint = "", status = "", remarks = "";
+    public ConnectToPSQL con;
+    trackComplaints th;
+    public complaintPanel(int cid, String priority, String category, String location, String complaint, String status, String remarks, trackComplaints th, int uid, String uname, String pwd, String fname, String lname, long mob,String email, String u_type){
+        con=new ConnectToPSQL();
+        this.cid = cid;
+        this.status = status;
+        this.th = th;
+        this.uid = uid;
+        this.uname = uname;
+        this.pwd = pwd;
+        this.fname = fname;
+        this.lname = lname;
+        this.email = email;
+        this.u_type = u_type;
+        this.mob = mob;
+        initComponents(cid,priority,category,location,complaint,status,remarks);
     }
+    
+    private void initComponents(int cid, String priority, String category, String location, String complaint, String status, String remarks) {
+        idLabel = new javax.swing.JLabel();
+        priorityLabel = new javax.swing.JLabel();
+        categoryLabel = new javax.swing.JLabel();
+        complaintLabel = new javax.swing.JLabel();
+        locationLabel = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        complaintText = new javax.swing.JTextArea();
+        cidText = new javax.swing.JLabel();
+        priorityText = new javax.swing.JLabel();
+        categoryText = new javax.swing.JLabel();
+        locationText = new javax.swing.JLabel();
+        statusLabel = new javax.swing.JLabel();
+        statusText = new javax.swing.JLabel();
+        remarksLabel = new javax.swing.JLabel();
+        remarksText = new javax.swing.JLabel();
+        deleteButton = new javax.swing.JButton();
+
+        idLabel.setText("Complaint id:");
+        priorityLabel.setText("Priority:");
+        categoryLabel.setText("Category:");
+        complaintLabel.setText("Complaint:");
+        locationLabel.setText("Location:");
+        complaintText.setColumns(20);
+        complaintText.setRows(5);
+        jScrollPane1.setViewportView(complaintText);
+        statusLabel.setText("Status:");
+        remarksLabel.setText("Remarks:");
+        deleteButton.setText("Delete");
+        
+        cidText.setText(Integer.toString(cid));
+        priorityText.setText(priority);
+        categoryText.setText(category);
+        locationText.setText(location);
+        complaintText.setText(complaint);
+        statusText.setText(status);
+        remarksText.setText(remarks);
+        complaintText.setEditable(false);
+        
+        deleteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteButtonActionPerformed(evt);
+            }
+        });
+        
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 488, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(complaintLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(idLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(cidText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(priorityLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12)
+                        .addComponent(priorityText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(categoryLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(categoryText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(locationLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(locationText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(statusLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12)
+                        .addComponent(statusText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(remarksLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12)
+                        .addComponent(remarksText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(idLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cidText, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(priorityLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(priorityText, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(categoryLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(categoryText, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(locationLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(locationText, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(complaintLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(statusLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(statusText, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(remarksLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(remarksText, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+    }
+    
+    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {
+        System.out.println(this.status);
+        if(!"Closed".equals(this.status))
+        {
+            JOptionPane.showMessageDialog(null, "You can only delete complaints with status: Closed ", cop.COP.app_name, JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        String sql = "delete from complaints where id="+cid+"";
+        if(con.ExecuteQuery(sql)>0){
+            JOptionPane.showMessageDialog(null, "Complaint deleted sucessfully ", cop.COP.app_name, JOptionPane.INFORMATION_MESSAGE);
+            th.dispose();
+            new trackComplaints(uid,uname,pwd,fname,lname,mob,email,u_type).setVisible(true);
+            return;
+        }else{
+            JOptionPane.showMessageDialog(null, "Unable to delete complaint ", cop.COP.app_name, JOptionPane.ERROR_MESSAGE);
+
+       }    
+    }
+    
+    private javax.swing.JLabel categoryLabel;
+    private javax.swing.JLabel categoryText;
+    private javax.swing.JLabel cidText;
+    private javax.swing.JLabel complaintLabel;
+    private javax.swing.JTextArea complaintText;
+    private javax.swing.JButton deleteButton;
+    private javax.swing.JLabel idLabel;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel locationLabel;
+    private javax.swing.JLabel locationText;
+    private javax.swing.JLabel priorityLabel;
+    private javax.swing.JLabel priorityText;
+    private javax.swing.JLabel remarksLabel;
+    private javax.swing.JLabel remarksText;
+    private javax.swing.JLabel statusLabel;
+    private javax.swing.JLabel statusText;
 }

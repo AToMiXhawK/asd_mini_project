@@ -252,7 +252,7 @@ public class registerComplaint extends javax.swing.JFrame {
         category = (String) categoryCombo.getSelectedItem();
         if(locationText.getText().trim().length()==0)
             location="NULL";
-        else {location = locationText.getText();}
+        else {location = "'"+locationText.getText()+"'";}
         
         if(complaintText.getText().trim().length()==0 || complaintText.getText().trim().length()>256)
         {
@@ -261,7 +261,7 @@ public class registerComplaint extends javax.swing.JFrame {
         }
         else {complaint = complaintText.getText();}
         
-        String sql = "insert into complaints values(DEFAULT, '"+uid+"', '"+priority+"', 'Registered', '"+complaint+"', '"+location+"', '"+category+"', NULL)";
+        String sql = "insert into complaints values(DEFAULT, '"+uid+"', '"+priority+"', 'Registered', '"+complaint+"', "+location+", '"+category+"', NULL)";
         if(con.InsertQuery(sql)>0){
             JOptionPane.showMessageDialog(null, "Complaint registered Successfully ");
             this.dispose();
