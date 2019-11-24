@@ -12,6 +12,7 @@ package cop.frames;
 import cop.utils.ConnectToPSQL;
 import cop.frames.Login;
 import cop.frames.userUpdate;
+import cop.frames.registerComplaint;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
@@ -146,11 +147,13 @@ public class userPanel extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void regComplaintButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regComplaintButtonActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
+        new registerComplaint(uid,uname,pwd,fname,lname,mob,email,u_type).setVisible(true);
     }//GEN-LAST:event_regComplaintButtonActionPerformed
 
     private void trackComplaintButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_trackComplaintButtonActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
+        new trackComplaints(uid,uname,pwd,fname,lname,mob,email,u_type).setVisible(true);
     }//GEN-LAST:event_trackComplaintButtonActionPerformed
 
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
